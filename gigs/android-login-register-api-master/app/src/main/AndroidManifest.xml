@@ -13,6 +13,18 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".PinResetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OtpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UsernameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WebActivity"
+            android:exported="false" />
+        <activity
             android:name=".ResultadosActivity"
             android:exported="false" />
         <activity
@@ -30,6 +42,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

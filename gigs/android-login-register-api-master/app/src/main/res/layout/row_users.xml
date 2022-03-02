@@ -16,18 +16,20 @@
         android:layout_height="wrap_content">
 
 
-    <TextView
-        android:id="@+id/tvEstadoOrden"
-        android:layout_width="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/viewSeperator"
-        android:text="Fec Registro"
-        android:layout_marginTop="5dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="@color/colorBlack"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tvFecRegistro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="5dp"
+            android:text="Fecha"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/viewSeperator"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <View
             android:id="@+id/viewSeperator"
@@ -41,17 +43,33 @@
             android:layout_height="1dp"/>
 
 
-    <TextView
+        <TextView
 
-        android:id="@+id/tvFecRegistro"
-        android:layout_width="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewSeperator"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="5dp"
-        android:text="Estado Orden"
-        android:textSize="14sp"
-        android:layout_height="wrap_content"/>
+            android:id="@+id/tvLaboratorio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="5dp"
+            android:text="Laboratorio Clinico Quebradilla"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewSeperator"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+
+            android:id="@+id/tvEstadoOrden"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="276dp"
+            android:layout_marginTop="5dp"
+            android:text="Estado"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewSeperator"
+            app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
 

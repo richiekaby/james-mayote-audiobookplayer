@@ -1,6 +1,7 @@
 package net.larntech.user;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ResultadosAdapter extends RecyclerView.Adapter<ResultadosAdapter.ResultadosAdapterVh> implements Filterable {
@@ -51,12 +55,38 @@ public class ResultadosAdapter extends RecyclerView.Adapter<ResultadosAdapter.Re
 
         ResultadosResponse resultadosResponse = resultadosResponsesList.get(position);
         String fecRegistro = resultadosResponse.getFec_registro();
+        String laboratorio = resultadosResponse.getLaboratorio();
         String estadoOrden = resultadosResponse.getEstado_orden();
 
-        holder.tvFecRegistro.setText(fecRegistro);
+        if(fecRegistro != null) {
+            holder.tvFecRegistro.setText(formateDateFromstring("dd/MM/YYYY hh:mm:ss", "dd/MM/YYYY", fecRegistro));
+        }else{
+            holder.tvFecRegistro.setText("");
+        }
+        holder.tvLaboratorio.setText(laboratorio);
         holder.tvEstadoOrden.setText(estadoOrden);
 
         holder.itemView.setOnClickListener(v -> resultadosResClickListener.selectedResult(resultadosResponse));
+
+    }
+
+    public static String formateDateFromstring(String inputFormat, String outputFormat, String inputDate){
+
+        Date parsed = null;
+        String outputDate = "";
+
+        SimpleDateFormat df_input = new SimpleDateFormat(inputFormat, java.util.Locale.getDefault());
+        SimpleDateFormat df_output = new SimpleDateFormat(outputFormat, java.util.Locale.getDefault());
+
+        try {
+            parsed = df_input.parse(inputDate);
+            assert parsed != null;
+            outputDate = df_output.format(parsed);
+
+        } catch (ParseException ignored) {
+        }
+
+        return outputDate;
 
     }
 
@@ -68,11 +98,13 @@ public class ResultadosAdapter extends RecyclerView.Adapter<ResultadosAdapter.Re
     public static class ResultadosAdapterVh extends RecyclerView.ViewHolder {
 
         private final TextView tvFecRegistro;
+        private final TextView tvLaboratorio;
         private final TextView tvEstadoOrden;
 
         public ResultadosAdapterVh(@NonNull View itemView) {
             super(itemView);
             tvFecRegistro = itemView.findViewById(R.id.tvFecRegistro);
+            tvLaboratorio = itemView.findViewById(R.id.tvLaboratorio);
             tvEstadoOrden = itemView.findViewById(R.id.tvEstadoOrden);
         }
     }

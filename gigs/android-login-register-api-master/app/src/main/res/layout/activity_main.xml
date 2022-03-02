@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".MainActivity">
 
 
@@ -12,11 +13,13 @@
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
+            android:layout_marginStart="148dp"
+            android:layout_marginEnd="148dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:text="Welcome"
-            android:textSize="18sp"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/gridLayout"
             app:layout_constraintStart_toStartOf="@+id/gridLayout"
             app:layout_constraintTop_toBottomOf="@+id/tvName" />
@@ -26,10 +29,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="92dp"
             android:layout_marginTop="20dp"
-            android:text="Bienvenido"
-            android:textSize="30sp"
+            android:fontFamily="@font/andika_new_basic"
+            android:text="Bienvenid@"
+            android:textColor="@color/colorWhite"
+            android:textSize="40sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/username"
             app:layout_constraintStart_toStartOf="@+id/gridLayout"
@@ -69,14 +74,14 @@
                             android:orientation="vertical">
 
                                 <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/home" />
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:src="@drawable/ordenes" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Ordenes de laboratorio"
+                                    android:text="Ordenes laboratorio"
                                     android:textAlignment="center"
                                     android:textStyle="bold" />
                         </LinearLayout>
@@ -102,14 +107,14 @@
                             android:orientation="vertical">
 
                                 <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/language" />
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:src="@drawable/historial" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Historial"
+                                    android:text="Examen de control"
                                     android:textAlignment="center"
                                     android:textStyle="bold" />
                         </LinearLayout>
@@ -135,9 +140,9 @@
                             android:orientation="vertical">
 
                                 <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/chat" />
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:src="@drawable/sucursales" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -168,9 +173,9 @@
                             android:orientation="vertical">
 
                                 <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/calendar" />
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:src="@drawable/contrasena" />
 
                                 <TextView
                                     android:layout_width="wrap_content"

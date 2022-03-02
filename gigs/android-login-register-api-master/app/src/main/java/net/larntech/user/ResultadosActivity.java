@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -73,13 +74,10 @@ public class ResultadosActivity extends AppCompatActivity implements ResultadosA
 
 
     private void setTitle(){
-        if(resultadosResponseList.size() > 0){
-            String title = resultadosResponseList.get(0).getLaboratorio();
-            this.getSupportActionBar().setTitle(title);
+            this.getSupportActionBar().setTitle("Ordenes de Laboratorio");
             this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_new_24);
 
-        }
     }
 
     public void prepareRecyclerView(){
@@ -136,7 +134,10 @@ public class ResultadosActivity extends AppCompatActivity implements ResultadosA
 
     @Override
     public void selectedResult(ResultadosResponse resultadosResponse) {
-        Toast.makeText(this,resultadosResponse.getLaboratorio(), Toast.LENGTH_LONG).show();
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(resultadosResponse.getImg_qr_link()));
+        startActivity(browserIntent);
+//        startActivity(new Intent(this,WebActivity.class).putExtra("data",resultadosResponse.getImg_qr_link()));
+//        Toast.makeText(this,resultadosResponse.getLaboratorio(), Toast.LENGTH_LONG).show();
     }
 
 

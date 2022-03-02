@@ -16,6 +16,7 @@ public class ResultadosResponse implements Serializable {
     private String fec_registro;
     private String laboratorio;
     private String estado_orden;
+    private String img_qr_link;
 
     public String getNum_solicitud() {
         return num_solicitud;
@@ -49,14 +50,11 @@ public class ResultadosResponse implements Serializable {
         this.estado_orden = estado_orden;
     }
 
+    public String getImg_qr_link() {
+        return img_qr_link;
+    }
 
-    @Override
-    public String toString() {
-        return "ResultadosResponse{" +
-                "num_solicitud='" + num_solicitud + '\'' +
-                ", fec_registro='" + fec_registro + '\'' +
-                ", laboratorio='" + laboratorio + '\'' +
-                ", estado_orden='" + estado_orden + '\'' +
-                '}';
+    public void setImg_qr_link(String img_qr_link) {
+        this.img_qr_link = img_qr_link;
     }
 }

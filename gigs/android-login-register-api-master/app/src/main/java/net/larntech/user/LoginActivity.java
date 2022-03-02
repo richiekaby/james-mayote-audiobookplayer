@@ -1,28 +1,26 @@
 package net.larntech.user;
 
-import androidx.appcompat.app.AppCompatActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.Gson;
 
-import org.w3c.dom.Text;
+import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
      Button btnLogin;
      EditText edUsername, edPassword;
-     TextView noAccount;
+     TextView tvForgetPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,9 +29,9 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         edUsername = findViewById(R.id.et_email);
         edPassword = findViewById(R.id.et_password);
-        noAccount = findViewById(R.id.tvCreateAccount);
+        tvForgetPassword = findViewById(R.id.tvForgetPassword);
 
-//        noAccount.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
+        tvForgetPassword.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, UsernameActivity.class)));
 //
         btnLogin.setOnClickListener(view -> {
             if(TextUtils.isEmpty(edUsername.getText().toString()) || TextUtils.isEmpty(edPassword.getText().toString()) ) {
@@ -58,7 +56,8 @@ public class LoginActivity extends AppCompatActivity {
                     LoginResponse loginResponse = gson.fromJson(response.body() , LoginResponse.class);
 
                     if (loginResponse.getNom_paciente().equals("0")) {
-                        Toast.makeText(LoginActivity.this,"No such user found ",Toast.LENGTH_LONG).show();
+                        Toasty.error(LoginActivity.this, "No such user found.", Toast.LENGTH_SHORT, true).show();
+//                        Toast.makeText(LoginActivity.this,"No such user found ",Toast.LENGTH_LONG).show();
 
                     }else {
                         startActivity(new Intent(LoginActivity.this, MainActivity.class)
