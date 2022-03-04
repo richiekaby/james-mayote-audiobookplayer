@@ -1,15 +1,26 @@
 package net.larntech.user;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.app.Dialog;
+import android.app.DownloadManager;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,10 +28,25 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 
 public class ResultadosActivity extends AppCompatActivity implements ResultadosAdapter.ResultadosResClickListener {
 
@@ -29,6 +55,12 @@ public class ResultadosActivity extends AppCompatActivity implements ResultadosA
     private RecyclerView recyclerview;
     private Toolbar toolbar;
     private ResultadosAdapter resultadosAdapter;
+    private String updatedFileName;
+    public String fileDirectory;
+    // Progress Dialog
+    private ProgressDialog pDialog;
+    public static final int progress_bar_type = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,11 +166,66 @@ public class ResultadosActivity extends AppCompatActivity implements ResultadosA
 
     @Override
     public void selectedResult(ResultadosResponse resultadosResponse) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(resultadosResponse.getImg_qr_link()));
-        startActivity(browserIntent);
-//        startActivity(new Intent(this,WebActivity.class).putExtra("data",resultadosResponse.getImg_qr_link()));
-//        Toast.makeText(this,resultadosResponse.getLaboratorio(), Toast.LENGTH_LONG).show();
+        updatedFileName = resultadosResponse.getImg_qr_link();
+        checkPermission();
     }
 
+    private void checkPermission(){
+        Dexter.withContext(this)
+                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new PermissionListener() {
+                    @Override public void onPermissionGranted(PermissionGrantedResponse response) {
+                        downloadFileMessage(updatedFileName);
+                    }
+                    @Override public void onPermissionDenied(PermissionDeniedResponse response) {/* ... */}
+                    @Override public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {/* ... */}
+                }).check();
+    }
+
+
+    private void downloadTask(String url) {
+
+        String name = url.substring(url.lastIndexOf('/') + 1);
+        File file = new File(Environment.getExternalStorageDirectory(), "Download");
+        if (!file.exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            file.mkdirs();
+        }
+        File result = new File(file.getAbsolutePath() + File.separator + name);
+        DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
+        request.setDestinationUri(Uri.fromFile(result));
+        request.setTitle("Downloading Please wait...");
+        request.setDescription(name);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        if (downloadManager != null) {
+            downloadManager.enqueue(request);
+        }
+        Toast.makeText(this, "Starting download...", Toast.LENGTH_SHORT).show();
+        MediaScannerConnection.scanFile(this, new String[]{result.toString()}, null,
+                (path, uri) -> Toasty.success(ResultadosActivity.this,"Download complete "));
+
+
+    }
+
+    private void downloadFileMessage(String url){
+        new AlertDialog.Builder(this)
+                .setTitle("Download File")
+                .setMessage("You are about to download a file, Please yes to proceed.")
+
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        downloadTask(url);
+                    }
+                })
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton("Cancel", null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
 
 }
