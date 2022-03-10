@@ -5,10 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UsernameActivity extends AppCompatActivity {
 
@@ -38,14 +44,64 @@ public class UsernameActivity extends AppCompatActivity {
 
     private void checkUsername(){
         if(etEmail.getText().length() > 0){
-            Toast.makeText(this,"Sending otp ...",Toast.LENGTH_SHORT).show();
-            handleDelay();
+            String username = etEmail.getText().toString();
+            getSolicitarClave(Integer.parseInt(username));
+            Toast.makeText(this,"Sending otp, Please wait...",Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(this," Please enter valid username ", Toast.LENGTH_LONG).show();;
         }
     }
 
-    private void handleDelay(){
-        new Handler().postDelayed(() -> startActivity(new Intent(UsernameActivity.this,OtpActivity.class)),1500);
+
+
+    private void getSolicitarClave(int pid) {
+        Call<String> allResultados = ApiClient.getService().getSolicitarClave(pid);
+        allResultados.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if(response.isSuccessful()){
+                    String result =  response.body();
+
+                    if(result != null ) {
+
+                        String removeEscape = result.replaceAll("\\\\", "");
+                        String results = removeEscape.replace("\"","");
+                        Log.e(" result "," ==> "+results);
+
+                        if(results.equals("1")) {
+                            moveBackTOlogin();
+                        }else{
+                            showError("Invalid Username");
+                        }
+
+                    }else{
+                        Toast.makeText(UsernameActivity.this," No details found ", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
     }
+
+    private void moveBackTOlogin(){
+        Toasty.success(this,"Password reset instruction successfully sent to your email.").show();
+        new Handler().postDelayed(() -> {
+            startActivity(new Intent(UsernameActivity.this, LoginActivity.class));
+            finish();
+        },1500);
+
+    }
+
+    private void showError(String message){
+        Toasty.error(this,message).show();
+    }
+
 }

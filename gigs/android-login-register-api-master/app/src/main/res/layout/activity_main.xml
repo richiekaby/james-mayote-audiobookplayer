@@ -56,7 +56,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvMisResultados"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="237dp"
                     android:layout_row="0"
                     android:layout_rowWeight="1"
                     android:layout_column="0"
@@ -121,6 +121,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cvSucurSales"
                     android:layout_width="99dp"
                     android:layout_height="wrap_content"
                     android:layout_row="1"

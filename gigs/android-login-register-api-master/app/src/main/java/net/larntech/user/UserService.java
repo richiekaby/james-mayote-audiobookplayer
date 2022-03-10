@@ -25,4 +25,13 @@ public interface UserService {
     @GET("api/ObtieneOrdenes")
     Call<String> getAllResultados(@Query("pId") Integer ptipoUsuario);
 
+    @GET("api/ObtieneSucursales")
+    Call<String> getAllSucursales(@Query("pId") Integer ptipoUsuario);
+
+
+    @GET("api/SolicitarClave")
+    Call<String> getSolicitarClave(@Query("pId") Integer ptipoUsuario);
+
+
+
 }

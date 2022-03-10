@@ -5,9 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OtpActivity extends AppCompatActivity {
 
@@ -48,4 +53,6 @@ public class OtpActivity extends AppCompatActivity {
     private void handleDelay(){
         new Handler().postDelayed(() -> startActivity(new Intent(OtpActivity.this,PinResetActivity.class)),1500);
     }
+
+
 }

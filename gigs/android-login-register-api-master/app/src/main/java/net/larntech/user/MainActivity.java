@@ -26,7 +26,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
    private LoginResponse loginResponse;
    private TextView username;
-   private CardView cvMisResultados;
+   private CardView cvMisResultados, cvSucurSales;
    private Intent intent;
    private int pId;
 
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private void initData(){
         username = findViewById(R.id.username);
         cvMisResultados = findViewById(R.id.cvMisResultados);
+        cvSucurSales = findViewById(R.id.cvSucurSales);
         intent = getIntent();
         setUserName();
         clickListener();
@@ -59,15 +60,26 @@ public class MainActivity extends AppCompatActivity {
 
     private void clickListener(){
 
-        cvMisResultados.setOnClickListener(view -> {
+        cvMisResultados.setOnClickListener(view ->
+        {
+            Toast.makeText(this, "Fetching, Please wait ...", Toast.LENGTH_LONG).show();
             getMisResultados();
         });
+
+        cvSucurSales.setOnClickListener(view -> {
+            Toast.makeText(this, "Fetching, Please wait ...", Toast.LENGTH_LONG).show();
+            getSucuSsales();
+
+        }
+        );
+
+
 
     }
 
     private void getMisResultados() {
         Call<String> allResultados = ApiClient.getService().getAllResultados(pId);
-//        Call<String> allResultados = ApiClient.getService().getAllResultados(106320395);
+//        Call<String> allResultados = ApiClient.getService().getAllResultados(118790988);
         allResultados.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -99,12 +111,54 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void getSucuSsales() {
+//        Call<String> allResultados = ApiClient.getService().getAllResultados(pId);
+        Call<String> allResultados = ApiClient.getService().getAllSucursales(106320395);
+        allResultados.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if(response.isSuccessful()){
+                   String result =  response.body();
+
+                   if(result != null ) {
+                       //remove back slash
+                       String resultadSucuSsales = result.replaceAll("\\\\", "");
+                       Log.e(" data "," ==> "+resultadSucuSsales);
+                       showSucusale(resultadSucuSsales);
+
+                   }else{
+                       Toast.makeText(MainActivity.this," No details found ", Toast.LENGTH_SHORT).show();
+                   }
+
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
+
+
     private void showResults(String resultadosResponseList){
 
         if(!resultadosResponseList.equals("")){
             startActivity(new Intent(this,ResultadosActivity.class).putExtra("resultados", resultadosResponseList));
         }else{
             Toast.makeText(MainActivity.this," Result list is null ", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void showSucusale(String sucusale){
+        if(!sucusale.equals("")){
+            startActivity(new Intent(this,SucussalesActivity.class).putExtra("resultados", sucusale));
+        }else{
+            Toast.makeText(MainActivity.this," Sucusale list is null ", Toast.LENGTH_SHORT).show();
         }
 
     }

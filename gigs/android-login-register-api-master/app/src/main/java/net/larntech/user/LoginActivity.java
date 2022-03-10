@@ -57,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (loginResponse.getNom_paciente().equals("0")) {
                         Toasty.error(LoginActivity.this, "No such user found.", Toast.LENGTH_SHORT, true).show();
-//                        Toast.makeText(LoginActivity.this,"No such user found ",Toast.LENGTH_LONG).show();
 
                     }else {
                         startActivity(new Intent(LoginActivity.this, MainActivity.class)
