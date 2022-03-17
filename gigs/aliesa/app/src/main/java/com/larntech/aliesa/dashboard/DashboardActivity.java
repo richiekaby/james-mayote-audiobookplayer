@@ -11,6 +11,8 @@ import android.view.View;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.larntech.aliesa.R;
 import com.larntech.aliesa.add_restaurant.AddRestaurantActivity;
 
@@ -18,6 +20,8 @@ public class DashboardActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
     private FloatingActionButton floatingActionButton;
 
     @Override
@@ -62,6 +66,8 @@ public class DashboardActivity extends AppCompatActivity {
     private void initFirebase(){
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("aliesa-default-rtdb");
     }
 
     @Override
