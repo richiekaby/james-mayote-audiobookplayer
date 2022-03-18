@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,8 +15,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.larntech.aliesa.map.MapsActivity;
 import com.larntech.aliesa.R;
-import com.larntech.aliesa.dashboard.DashboardActivity;
 import com.larntech.aliesa.register.RegisterActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -82,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void registerSuccessful(FirebaseUser user){
-        startActivity(new Intent(this, DashboardActivity.class));
+        startActivity(new Intent(this, MapsActivity.class));
         finish();
     }
 

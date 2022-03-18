@@ -67,7 +67,7 @@ public class DashboardActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("aliesa-default-rtdb");
+        myRef = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
