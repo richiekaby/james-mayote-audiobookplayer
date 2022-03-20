@@ -43,7 +43,7 @@ class BookListAdapter(var clickedItem: ClickedItem) : RecyclerView.Adapter<BookL
     }
 
     interface ClickedItem{
-        fun clickedItem(itemModal: Book)
+        fun clickedItem(book: Book)
     }
 
     class BookListAdapterVh(itemView: View): RecyclerView.ViewHolder(itemView) {

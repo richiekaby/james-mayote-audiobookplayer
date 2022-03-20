@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -13,6 +14,7 @@ class BookListFragment  : Fragment(), BookListAdapter.ClickedItem {
     private lateinit var booklist: ArrayList<Book>
     private lateinit var rvBooks: RecyclerView
     private lateinit var bookListAdapter: BookListAdapter;
+    private val viewModel: AppViewModel by activityViewModels()
 
     companion object {
         fun newInstance(booklist: ArrayList<Book>): BookListFragment {
@@ -45,8 +47,8 @@ class BookListFragment  : Fragment(), BookListAdapter.ClickedItem {
         }
     }
 
-    override fun clickedItem(itemModal: Book) {
-
+    override fun clickedItem(book: Book) {
+        viewModel.selectedBook(book)
     }
 
 
