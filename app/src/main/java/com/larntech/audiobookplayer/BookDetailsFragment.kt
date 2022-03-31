@@ -4,15 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.squareup.picasso.Picasso
 
 class BookDetailsFragment : Fragment() {
 
     private lateinit var tvClickedBookTitle: TextView
     private lateinit var tvClickedBookAuthor: TextView
+    private lateinit var ivBookCover: ImageView
     private lateinit var book:Book;
     private val viewModel: AppViewModel by activityViewModels()
 
@@ -42,6 +45,7 @@ class BookDetailsFragment : Fragment() {
     private fun findView(view: View){
         tvClickedBookTitle = view.findViewById(R.id.tvClickedBookTitle)
         tvClickedBookAuthor = view.findViewById(R.id.tvClickedBookAuthor)
+        ivBookCover = view.findViewById(R.id.ivBookCover)
         initData();
     }
 
@@ -60,6 +64,8 @@ class BookDetailsFragment : Fragment() {
     private fun setBookDate(book: Book){
         tvClickedBookTitle.text = book.title
         tvClickedBookAuthor.text = book.author
+        var bookUrl:String = book.cover_url.replace("\\/","");
+        Picasso.get().load(bookUrl).into(ivBookCover);
     }
 
 

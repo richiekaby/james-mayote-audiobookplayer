@@ -1,17 +1,30 @@
 package com.larntech.audiobookplayer
 
 
+import android.app.SearchManager
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Observer
+import com.google.gson.Gson
+import com.larntech.audiobookplayer.network.ApiClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var fm: FragmentManager;
+    private lateinit var btnSearch: Button;
+    private lateinit var progressBar: ProgressBar;
     private lateinit var bookList: BookList;
     private val viewModel: AppViewModel by viewModels()
 
@@ -19,11 +32,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initDate();
+        handleIntent(intent)
     }
 
 
     private fun initDate(){
-        setBookCollections()
+        btnSearch = findViewById(R.id.btnSearch)
+        progressBar = findViewById(R.id.progress_bar)
+        bookList =  BookList();
+        clickListener()
 
         fm = supportFragmentManager
 
@@ -34,12 +51,47 @@ class MainActivity : AppCompatActivity() {
         else {
             displayFragments(2);
         }
+        handleViewModel();
+    }
+
+    private fun handleViewModel(){
+        val orientation = resources.configuration.orientation
 
         viewModel.selectedBook.observe(this) { book ->
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                 loadBookListFragment(BookDetailsFragment.newInstance(book));
             }
         }
+
+        viewModel.searchBookMessage.observe(this){
+            if(it != null){
+                handleProgressBar(false)
+                showMessage(it)
+            }
+        }
+
+        viewModel.booksResponse.observe(this){
+            handleProgressBar(false)
+            setBookCollections(it)
+        }
+    }
+
+    private fun handleProgressBar(show: Boolean){
+        if(show){
+            progressBar.visibility = View.VISIBLE
+        }else{
+            progressBar.visibility = View.GONE
+
+        }
+
+    }
+
+    private fun clickListener(){
+
+        btnSearch.setOnClickListener {
+            onSearchRequested();
+        }
+
     }
 
     private fun displayFragments(type: Int){
@@ -51,44 +103,32 @@ class MainActivity : AppCompatActivity() {
             loadBookDetailFragment();
         }
     }
+
     private fun loadBookListFragment(fragment: Fragment) {
         // load fragment
         val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.book_lists, fragment,"list")
-            transaction.addToBackStack(null)
-            transaction.commit()
+        transaction.replace(R.id.book_lists, fragment,"list")
+        transaction.addToBackStack(null)
+        transaction.commit()
 
     }
 
     private fun loadBookDetailFragment() {
         // load fragment
         val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.book_details, BookDetailsFragment.newInstance(),"detail")
-            transaction.addToBackStack(null)
-            transaction.commit()
+        transaction.replace(R.id.book_details, BookDetailsFragment.newInstance(),"detail")
+        transaction.addToBackStack(null)
+        transaction.commit()
 
     }
 
 
-    private fun setBookCollections(){
+    private fun setBookCollections(books: List<Book>){
 
 
-        var list =  arrayListOf(
-            Book("Book 0", "Author 0"),
-            Book("Book 1", "Author 1"),
-            Book("Book 2", "Author 2"),
-            Book("Book 3", "Author 3"),
-            Book("Book 4", "Author 4"),
-            Book("Book 5", "Author 5"),
-            Book("Book 6", "Author 6"),
-            Book("Book 7", "Author 7"),
-            Book("Book 8", "Author 8"),
-            Book("Book 9", "Author 9")
-        )
-
-        bookList = BookList();
-        bookList.setBookArray(list)
-
+        var list =  books;
+        bookList.setBookArray(ArrayList(list))
+        displayFragments(1);
     }
 
     class BookList{
@@ -122,4 +162,26 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIntent(intent)
+    }
+
+
+
+    private fun handleIntent(intent: Intent) {
+        if (Intent.ACTION_SEARCH == intent.action) {
+            intent.getStringExtra(SearchManager.QUERY)?.also { query ->
+                handleProgressBar(true)
+                viewModel.searchBook(query)
+            }
+        }
+    }
+
+    private fun showMessage(message: String){
+        Toast.makeText(this@MainActivity,message,Toast.LENGTH_LONG).show()
+    }
+
 }
