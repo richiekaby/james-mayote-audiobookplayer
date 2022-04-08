@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.squareup.picasso.Picasso
+import edu.temple.audlibplayer.PlayerService
 
 class BookDetailsFragment : Fragment() {
 
@@ -46,11 +47,11 @@ class BookDetailsFragment : Fragment() {
         tvClickedBookTitle = view.findViewById(R.id.tvClickedBookTitle)
         tvClickedBookAuthor = view.findViewById(R.id.tvClickedBookAuthor)
         ivBookCover = view.findViewById(R.id.ivBookCover)
+
         initData();
     }
 
     private fun initData(){
-
         viewModel.selectedBook.observe(viewLifecycleOwner) { book ->
             setBookDate(book)
         }

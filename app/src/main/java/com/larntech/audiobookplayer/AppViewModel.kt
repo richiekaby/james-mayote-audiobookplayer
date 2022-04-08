@@ -13,6 +13,24 @@ class AppViewModel: ViewModel() {
     private val mutableSelectedBook = MutableLiveData<Book>()
     val selectedBook: LiveData<Book> get() = mutableSelectedBook
 
+    private val mutableBookToPlay = MutableLiveData<Book>()
+    val bookToPlay: LiveData<Book> get() = mutableBookToPlay
+
+    private val mutableProgress = MutableLiveData<Int>()
+    val bookProgress: LiveData<Int> get() = mutableProgress
+
+    private val mutableSeekBarPlay = MutableLiveData<Int>()
+    val seekBarPlay: LiveData<Int> get() = mutableSeekBarPlay
+
+    private val mutableStopPlaying = MutableLiveData<Book>()
+    val stopPlaying: LiveData<Book> get() = mutableStopPlaying
+
+    private val mutableStartPlay = MutableLiveData<Book>()
+    val startPlay: LiveData<Book> get() = mutableStartPlay
+
+    private val mutablePausePlay = MutableLiveData<Book>()
+    val pausePlay: LiveData<Book> get() = mutablePausePlay
+
     private val mutableSearchedBooks = MutableLiveData<List<Book>>()
     val booksResponse: LiveData<List<Book>> get() =mutableSearchedBooks;
 
@@ -21,7 +39,29 @@ class AppViewModel: ViewModel() {
 
     fun selectedBook(book: Book) {
         mutableSelectedBook.value = book
+        mutableBookToPlay.value = book
+
     }
+
+    fun setSeekBar(value: Int) {
+        mutableSeekBarPlay.value = value
+    }
+
+    fun setProgressBar(value: Int) {
+        mutableProgress.value = value
+    }
+    fun startPlayBook(book: Book) {
+        mutableStartPlay.value = book
+    }
+
+    fun pausePlayBook(book: Book) {
+        mutablePausePlay.value = book
+    }
+
+    fun stopPlayBook(book: Book) {
+        mutableStopPlaying.value = book
+    }
+
 
 
     fun searchBook(term: String?) {

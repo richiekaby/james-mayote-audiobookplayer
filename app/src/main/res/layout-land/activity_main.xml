@@ -14,12 +14,22 @@
         android:layout_height="wrap_content"/>
 
     <FrameLayout
+        android:id="@+id/frag_control"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/book_details"
+        app:layout_constraintTop_toBottomOf="@+id/btnSearch"
+        app:layout_constraintBottom_toTopOf="@+id/book_lists"
+        />
+
+    <FrameLayout
         android:id="@+id/book_lists"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/book_details"
-        app:layout_constraintTop_toBottomOf="@+id/btnSearch"
+        app:layout_constraintTop_toBottomOf="@+id/frag_control"
         app:layout_constraintBottom_toBottomOf="parent"
         />
     <FrameLayout
