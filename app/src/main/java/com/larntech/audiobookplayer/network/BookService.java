@@ -1,7 +1,7 @@
 package com.larntech.audiobookplayer.network;
 
 
-import com.larntech.audiobookplayer.Book;
+import com.larntech.audiobookplayer.database.entity.Book;
 
 import java.util.List;
 

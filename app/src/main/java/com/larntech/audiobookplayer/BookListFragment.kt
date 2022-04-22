@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.larntech.audiobookplayer.database.entity.Book
+import com.larntech.audiobookplayer.database.repository.BookRepository
 
 class BookListFragment  : Fragment(), BookListAdapter.ClickedItem {
 
