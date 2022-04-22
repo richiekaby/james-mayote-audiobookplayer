@@ -26,7 +26,6 @@ class ControlFragment  : Fragment() {
     var progressChangedValue = 0
     //2
     companion object {
-
         fun newInstance(book: Book): ControlFragment {
             val fragmentDetails = ControlFragment();
             fragmentDetails.book = book
